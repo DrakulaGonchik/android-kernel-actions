@@ -70,7 +70,7 @@ if [[ $arch = "arm64" ]]; then
         binutils="$([[ $ver = */binutils ]] && echo true || echo false)"
         
         if $binutils; then
-            additional_packages="binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi"
+            additional_packages="binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi libtinfo5"
             make_opts="CC=clang"
             host_make_opts="HOSTCC=clang HOSTCXX=clang++"
         else
