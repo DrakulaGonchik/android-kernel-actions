@@ -70,13 +70,13 @@ if [[ $arch = "arm64" ]]; then
         binutils="$([[ $ver = */binutils ]] && echo true || echo false)"
         
         if $binutils; then
-            additional_packages="binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi libtinfo5 libncurses5-dev"
+            additional_packages="binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi"
             make_opts="CC=clang"
             host_make_opts="HOSTCC=clang HOSTCXX=clang++"
         else
             # Most android kernels still need binutils as the assembler, but it will
             # not be used when the Makefile is patched to make use of LLVM_IAS option
-            additional_packages="binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi libtinfo5 libncurses5-dev"
+            additional_packages="binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi"
             make_opts="CC=clang LD=ld.lld NM=llvm-nm AR=llvm-ar STRIP=llvm-strip OBJCOPY=llvm-objcopy"
             make_opts+=" OBJDUMP=llvm-objdump READELF=llvm-readelf LLVM_IAS=1"
             host_make_opts="HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld HOSTAR=llvm-ar"
@@ -91,6 +91,7 @@ if [[ $arch = "arm64" ]]; then
         ln -sf /usr/bin/clang-"$ver_number" /usr/bin/clang
         ln -sf /usr/bin/clang-"$ver_number" /usr/bin/clang++
         ln -sf /usr/bin/ld.lld-"$ver_number" /usr/bin/ld.lld
+        apt install -y libtinfo5 libncurses5-dev
 
         for i in /usr/bin/llvm-*-"$ver_number"; do
             ln -sf "$i" "${i/-$ver_number}"
